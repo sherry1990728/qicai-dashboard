@@ -896,19 +896,21 @@ function rRecruitTable(recruitData){
 }
 
 // ====== 动态告警表渲染 ======
-function rStopTable(stopped){
+function rStopTable(stopped, dates){
   var h='<thead><tr><th>昵称</th><th>部门</th><th>经纪人</th><th>最后开播</th><th>中断天数</th><th>区间音浪</th><th>分层</th></tr></thead><tbody>';
   for(var i=0;i<stopped.length;i++){var a=stopped[i];
-    h+='<tr><td>'+a['nickname']+'</td><td>'+(a['dept']||'')+'</td><td>'+(a['broker']||'-')+'</td><td>'+(a['last_ticket_day']||'')+'</td><td><b style="color:#ef4444">'+a['days_since']+'天</b></td><td>0</td><td>'+tt(a['tier']||'D')+'</td></tr>';}
+    var sliceTicket = getSliceTicket(a, dates);
+    h+='<tr><td>'+a['nickname']+'</td><td>'+(a['dept']||'')+'</td><td>'+(a['broker']||'-')+'</td><td>'+(a['last_ticket_day']||'')+'</td><td><b style="color:#ef4444">'+a['days_since']+'天</b></td><td>'+fw(sliceTicket)+'</td><td>'+tt(a['tier']||'D')+'</td></tr>';}
   h+='</tbody>';
   document.getElementById('t-stp2').innerHTML=h;
   var tEl=document.getElementById('t-stp');
   if(tEl) tEl.innerHTML='🚨 断播预警 <span class="badge">截至结束日中断>3天 共'+stopped.length+'人</span>';
 }
-function rNovTable(notFirst){
-  var h='<thead><tr><th>昵称</th><th>部门</th><th>经纪人</th><th>入会天数</th><th>生命周期</th><th>区间音浪</th></tr></thead><tbody>';
+function rNovTable(notFirst, dates){
+  var h='<thead><tr><th>昵称</th><th>部门</th><th>经纪人</th><th>入会天数</th><th>生命周期</th><th>区间音浪</th><th>分层</th></tr></thead><tbody>';
   for(var i=0;i<notFirst.length;i++){var a=notFirst[i];
-    h+='<tr><td>'+a['nickname']+'</td><td>'+(a['dept']||'')+'</td><td>'+(a['broker']||'-')+'</td><td>'+(a['join_days']||0)+'天</td><td>'+(a['lifecycle']||'未知')+'</td><td>0</td></tr>';}
+    var sliceTicket = getSliceTicket(a, dates);
+    h+='<tr><td>'+a['nickname']+'</td><td>'+(a['dept']||'')+'</td><td>'+(a['broker']||'-')+'</td><td>'+(a['join_days']||0)+'天</td><td>'+(a['lifecycle']||'未知')+'</td><td>'+fw(sliceTicket)+'</td><td>'+tt(a['tier']||'D')+'</td></tr>';}
   h+='</tbody>';
   document.getElementById('t-nov2').innerHTML=h;
   var tEl=document.getElementById('t-nov');
