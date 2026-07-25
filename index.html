@@ -304,6 +304,10 @@ function computeAlerts(as, dates) {
       }
     }
 
+    // 过滤已注销账号
+    if ((a['nickname']||'') === '账号已注销') continue;
+    if ((a['nickname']||'').indexOf('已注销') >= 0) continue;
+
     // 未首播(V3口径:入会≤30天且区间零音浪)
     if ((a['join_days']||0) <= 30 && sliceTicket === 0 && sliceDays === 0) {
       notFirst.push({
